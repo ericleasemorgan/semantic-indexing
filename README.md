@@ -1,6 +1,6 @@
 
 
-  Sketches in Semantic Indexing
+  Experiments in semantic indexing
 
   This fledgling suite of software is a set of experiements in semantic
   indexing for the purposes of scalable reading.
