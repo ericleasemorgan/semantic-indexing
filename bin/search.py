@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+# search.py - query a semantic (word2vec) index
+
+# Eric Lease Morgan <eric_morgan@infomotions.com>
+# October 17, 2018 - first documentation
+
+
 # configure
 INDEX = './etc/documents.vec'
 N     = 25

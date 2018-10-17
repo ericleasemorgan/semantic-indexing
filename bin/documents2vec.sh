@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# documents2vec.sh - a front-end to documents2vec.py
+
+# Eric Lease Morgan <eric_morgan@infomotions.com>
+# October 17, 2018 - first documentation; written on a plane from Madrid to Chicago; brain-dead
+
+
 # configure
 INDEX='./bin/index.py'
 

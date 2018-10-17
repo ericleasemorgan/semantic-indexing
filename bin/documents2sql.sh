@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# documents2sql.sh - a front-end to documents2sql.py; generate SQL from a corpus
+
+# Eric Lease Morgan <eric_morgan@infomotions.com>
+# October 17, 2018 - first documentation
+
+
 # configure
 SQL='./etc/documents.sql'
 CORPUS='./corpus'

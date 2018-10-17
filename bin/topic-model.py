@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+# topic-model.py - given a hard-coded directory of files, output "themes" and documents associated with them
+
+# Eric Lease Morgan <eric_morgan@infomotions.com>
+# October 17, 2018 - first documentation; written in Benejarafe Alto (Spain) at La Finca
+
+
 # configure
 TOPICS     = 10
 DIMENSIONS = 10

@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# sql2db.sh - given a set of previously created SQL statements, create and fill a (SQLite) database
+
+# Eric Lease Morgan <eric_morgan@infomotions.com>
+# October 17, 2018 - first documentation
+
+
 # configure
 DB='./etc/documents.db'
 SCHEMA='./etc/schema.sql'

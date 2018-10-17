@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+# summarize.py - given a file, output a sort of summary
+
+# Eric Lease Morgan <eric_morgan@infomotions.com>
+# October 17, 2018 - first documentation
+
 
 # configure
 COUNT = 150

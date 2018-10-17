@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+# documents2vec.py - given a process and/or a file, initialize, update, or close a semantic (word2vec) INDEX
+
+# Eric Lease Morgan <eric_morgan@infomotions.com>
+# October 17, 2018 - first documentation, but written on an airplane from Chicago to Madrid
+
 
 # configure
 MODEL   = 'en'
