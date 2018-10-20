@@ -4,6 +4,7 @@
 
 # Eric Lease Morgan <emorgan@nd.edu>
 # October 17, 2018 - first investigations
+# October 20, 2018 - added entities, types, lemmas, and pos
 
 
 # configure
@@ -54,6 +55,20 @@ while ( my $results = $handle->fetchrow_hashref ) {
 	
 	}
 	
+	# find all lemmas & pos for in this sentence
+	my $subhandle = $dbh->prepare( qq(SELECT * FROM tokens WHERE did='$key' AND sid='$sid' AND ( pos IS 'NOUN' OR pos IS 'VERB' OR pos IS 'ADJ' OR pos is 'ADV' OR pos is 'PRON');) );
+	$subhandle->execute() or die $DBI::errstr;
+	
+	# process the results
+	my @lemmas = ();
+	my @pos    = ();
+	while ( my $subresults = $subhandle->fetchrow_hashref ) {
+	
+		push( @lemmas, $$subresults{ 'lemma' } );
+		push( @pos,    $$subresults{ 'pos' } );
+	
+	}
+	
 	# debug; dump
 	binmode( STDOUT, ':utf8' );
 	warn "       did: $did\n";
@@ -70,9 +85,18 @@ while ( my $results = $handle->fetchrow_hashref ) {
 		
 	}
 	
+	# check for lemmas
+	if ( @lemmas ) {
+
+		# dump some more
+		warn "    lemmas: " . join( '; ', @lemmas ) . "\n";
+		warn "       pos: " . join( '; ', @pos ) . "\n";
+		
+	}
+	
 	# delimit
 	warn "\n";
-
+		
 	# initialize indexing
 	my $solr           = WebService::Solr->new( SOLR );
 	my $solr_did       = WebService::Solr::Field->new( 'did'       => $did );
@@ -98,6 +122,22 @@ while ( my $results = $handle->fetchrow_hashref ) {
 
 		$doc->add_fields(( WebService::Solr::Field->new( 'type'       => $_ )));
 		$doc->add_fields(( WebService::Solr::Field->new( 'facet_type' => $_ )));
+	
+	}
+
+	# add complex fields
+	foreach ( @lemmas ) {
+
+		$doc->add_fields(( WebService::Solr::Field->new( 'lemma'       => $_ )));
+		$doc->add_fields(( WebService::Solr::Field->new( 'facet_lemma' => $_ )));
+	
+	}
+
+	# add complex fields
+	foreach ( @pos ) {
+
+		$doc->add_fields(( WebService::Solr::Field->new( 'pos'       => $_ )));
+		$doc->add_fields(( WebService::Solr::Field->new( 'facet_pos' => $_ )));
 	
 	}
 

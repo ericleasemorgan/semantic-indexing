@@ -4,12 +4,13 @@
 
 # Eric Lease Morgan <emorgan@nd.edu>
 # October 17, 2018 - first cut
+# October 20, 2018 - added entities, types, lemmas, and pos
 
 
 # configure
 use constant ROWS       => 10;
 use constant SOLR       => 'http://localhost:8983/solr/documents';
-use constant FACETFIELD => ( 'facet_did', 'facet_type', 'facet_entity' );
+use constant FACETFIELD => ( 'facet_did', 'facet_type', 'facet_entity', 'facet_lemma', 'facet_pos' );
 
 # require
 use strict;
@@ -46,6 +47,16 @@ my @facet_entity = ();
 my $entity_facets = &get_facets( $response->facet_counts->{ facet_fields }->{ facet_entity } );
 foreach my $facet ( sort { $$entity_facets{ $b } <=> $$entity_facets{ $a } } keys %$entity_facets ) { push @facet_entity, $facet . ' (' . $$entity_facets{ $facet } . ')'; }
 
+# build a list of lemma facets
+my @facet_lemma = ();
+my $lemma_facets = &get_facets( $response->facet_counts->{ facet_fields }->{ facet_lemma } );
+foreach my $facet ( sort { $$lemma_facets{ $b } <=> $$lemma_facets{ $a } } keys %$lemma_facets ) { push @facet_lemma, $facet . ' (' . $$lemma_facets{ $facet } . ')'; }
+
+# build a list of pos facets
+my @facet_pos = ();
+my $pos_facets = &get_facets( $response->facet_counts->{ facet_fields }->{ facet_pos } );
+foreach my $facet ( sort { $$pos_facets{ $b } <=> $$pos_facets{ $a } } keys %$pos_facets ) { push @facet_pos, $facet . ' (' . $$pos_facets{ $facet } . ')'; }
+
 
 # get the total number of hits
 my $total = $response->content->{ 'response' }->{ 'numFound' };
@@ -56,8 +67,10 @@ my @hits = $response->docs;
 # start the output
 print "Your search found $total item(s) and " . scalar( @hits ) . " items(s) are displayed.\n\n";
 print '     did facets: ', join( '; ', @facet_did ), "\n\n";
-print '  entity facets: ', join( '; ', @facet_entity ), "\n\n";
+print '     pos facets: ', join( '; ', @facet_pos ), "\n\n";
 print '    type facets: ', join( '; ', @facet_type ), "\n\n";
+print '  entity facets: ', join( '; ', @facet_entity ), "\n\n";
+print '   lemma facets: ', join( '; ', @facet_lemma ), "\n\n";
 
 # loop through each document
 for my $doc ( $response->docs ) {
@@ -69,20 +82,39 @@ for my $doc ( $response->docs ) {
 	my $sentence = $doc->value_for( 'sentence' );
 	my @entities = $doc->values_for( 'entity' );
 	my @types    = $doc->values_for( 'type' );
+	my @lemmas   = $doc->values_for( 'lemma' );
+	my @pos      = $doc->values_for( 'pos' );
 					
 	# output
 	#print "       did: $did\n";
 	#print "       sid: $sid\n";
 	print "        id: $id\n";
 	print "  sentence: $sentence\n";
-	print "  entities: " . join( '; ', @entities ) . "\n";
-	print "     types: " . join( '; ', @types ) . "\n";
+
+	# check for entities
+	if ( @entities ) {
+	
+		print "  entities: " . join( '; ', @entities ) . "\n";
+		print "     types: " . join( '; ', @types ) . "\n";
+		
+	}
+	
+	# check for entities
+	if ( @lemmas ) {
+	
+		print "  lemmas: " . join( '; ', @lemmas ) . "\n";
+		print "     pos: " . join( '; ', @pos ) . "\n";
+		
+	}
+	
+	# delimit
 	print "\n";
 	
 }
 
 # done
 exit;
+
 
 # convert an array reference into a hash
 sub get_facets {

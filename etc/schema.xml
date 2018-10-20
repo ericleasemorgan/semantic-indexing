@@ -31,10 +31,14 @@
   <field name="entity"       type="text_general"  multiValued="true"   indexed="true"   stored="true"  />
   <field name="facet_did"    type="string"        multiValued="false"  indexed="true"   stored="true"  />
   <field name="facet_entity" type="string"        multiValued="true"   indexed="true"   stored="true"  />
+  <field name="facet_lemma"  type="string"        multiValued="true"   indexed="true"   stored="true"  />
+  <field name="facet_pos"    type="string"        multiValued="true"   indexed="true"   stored="true"  />
   <field name="facet_type"   type="string"        multiValued="true"   indexed="true"   stored="true"  />
   <field name="id"           type="string"        multiValued="false"  indexed="true"   stored="true"  />
+  <field name="lemma"        type="text_general"  multiValued="true"   indexed="true"   stored="true"  />
+  <field name="pos"          type="text_general"  multiValued="true"   indexed="true"   stored="true"  />
   <field name="sentence"     type="text_general"  multiValued="false"  indexed="true"   stored="true"  />
-  <field name="sid"          type="string"        multiValued="false"  indexed="true"   stored="true"  />
+  <field name="sid"          type="int"           multiValued="false"  indexed="true"   stored="true"  />
   <field name="type"         type="text_general"  multiValued="true"   indexed="true"   stored="true"  />
 
   <!-- cool field -->
